@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Unicode emoji list [popup]</title>
+<script type='text/javascript' src='popup.js'></script>
+<style>
+html, body {
+    width: 800px;
+    height: 310px;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+[hint] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+[hint]:before,
+[hint]:after {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+[hint]:before {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    margin-bottom: 5px;
+    margin-left: -80px;
+    padding: 7px;
+    width: 160px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 20%, 0.7);
+    color: #fff;
+    content: attr(hint);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+    transform: scale(0.4);
+}
+[hint]:after {
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    margin-left: -5px;
+    width: 0;
+    border-top: 5px solid #000;
+    border-top: 5px solid hsla(0, 0%, 20%, 0.7);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+    transform: scale(0.4);
+}
+[hint]:hover:before,
+[hint]:hover:after {
+    visibility: visible;
+    opacity: 1;
+}
+.emoji {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: all 200ms ease-in;
+    font-size: 1.4em;
+    padding: 2px 12px;
+    min-width: 2em;
+    min-height: 1.5em;
+    line-height: 1.5em;
+    margin: 3px;
+    background: transparent;
+    color: rgb(51, 51, 51);
+    /* border: 1px solid rgb(193, 193, 193); */
+    border: 0;
+    border-radius: 1em;
+}
+.emoji:active {
+    box-shadow: 0 0 8px -4px rgba(0,0,68,1);
+}
+.emoji:hover {
+    /* box-shadow: 0 0 8px -4px rgba(0,0,68,0.5); */
+    transform: scale(2);
+}
+.emoji:focus {
+    outline: none;
+}
+.tab-wrap {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    text-align: center;
+    top: 0;
+    overflow: visible;
+}
+.noslide {
+    background: #aaf;
+    width: calc(100% / 12);
+    height: 4px;
+    position: absolute;
+    left: 0;
+    top: calc(100% - 4px);
+    transition: left 0.3s ease-out;
+}
+.tab-label-content {
+    width: 100%;
+}
+.tab-content {
+    position: absolute;
+    top: 4em;
+    left: 0;
+    line-height: 130%;
+    display: none;
+}
+@keyframes neon {
+  from { text-shadow: 0 0 5px rgba(200, 200, 200, 0.8); }
+  to   { text-shadow: 0 0 10px rgba(200, 200, 200, 0.8); }
+}
+
+label {
+    background-color: rgba(0, 0, 80, 0.2);
+    color: rgba(0, 0, 0, 0.8);
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 3em;
+    transition: all 0.2s ease;
+    opacity: 1;
+    width: 100%;
+    border: 0;
+}
+input[type="radio"][name="tabs"] {
+    position: absolute;
+    visibility: hidden;
+    z-index: -1;
+}
+input[type="radio"][name="tabs"]:checked + .tab-label-content label {
+    /* animation: neon .5s ease-in-out infinite alternate; */
+    background-color: #fff;
+}
+input[type="radio"][name="tabs"]:checked + .tab-label-content .tab-content {
+    display: block;
+}
+input[type="radio"][name="tabs"]:nth-of-type(1):checked ~ .slide {
+    left: calc((100% / 12) * 0);
+}
+input[type="radio"][name="tabs"]:nth-of-type(2):checked ~ .slide {
+    left: calc((100% / 12) * 1);
+}
+input[type="radio"][name="tabs"]:nth-of-type(3):checked ~ .slide {
+    left: calc((100% / 12) * 2);
+}
+input[type="radio"][name="tabs"]:nth-of-type(4):checked ~ .slide {
+    left: calc((100% / 12) * 3);
+}
+input[type="radio"][name="tabs"]:nth-of-type(5):checked ~ .slide {
+    left: calc((100% / 12) * 4);
+}
+input[type="radio"][name="tabs"]:nth-of-type(6):checked ~ .slide {
+    left: calc((100% / 12) * 5);
+}
+input[type="radio"][name="tabs"]:nth-of-type(7):checked ~ .slide {
+    left: calc((100% / 12) * 6);
+}
+input[type="radio"][name="tabs"]:nth-of-type(8):checked ~ .slide {
+    left: calc((100% / 12) * 7);
+}
+input[type="radio"][name="tabs"]:nth-of-type(9):checked ~ .slide {
+    left: calc((100% / 12) * 8);
+}
+input[type="radio"][name="tabs"]:nth-of-type(10):checked ~ .slide {
+    left: calc((100% / 12) * 9);
+}
+input[type="radio"][name="tabs"]:nth-of-type(11):checked ~ .slide {
+    left: calc((100% / 12) * 10);
+}
+input[type="radio"][name="tabs"]:nth-of-type(12):checked ~ .slide {
+    left: calc((100% / 12) * 11);
+}
+input[type="radio"][name="tabs"]:first-of-type:checked ~ .slide {
+    left: 0;
+}
+</style>
+</head>
+<body><div class="tab-wrap">
+<input id="tab-1" type="radio" name="tabs" checked />
+<div class="tab-label-content">
+<label for="tab-1">😄</label>
+<div class="tab-content">
+    <button class="emoji" title="Grinning face with smiling eyes (u+1f601)">😁</button>
+    <button class="emoji" title="Face with tears of joy (u+1f602)">😂</button>
+    <button class="emoji" title="Smiling face with open mouth (u+1f603)">😃</button>
+    <button class="emoji" title="Smiling face with open mouth and smiling eyes (u+1f604)">😄</button>
+    <button class="emoji" title="Smiling face with open mouth and cold sweat (u+1f605)">😅</button>
+    <button class="emoji" title="Smiling face with open mouth and tightly-closed eyes (u+1f606)">😆</button>
+    <button class="emoji" title="Winking face (u+1f609)">😉</button>
+    <button class="emoji" title="Smiling face with smiling eyes (u+1f60a)">😊</button>
+    <button class="emoji" title="Face savouring delicious food (u+1f60b)">😋</button>
+    <button class="emoji" title="Relieved face (u+1f60c)">😌</button>
+    <button class="emoji" title="Smiling face with heart-shaped eyes (u+1f60d)">😍</button>
+    <button class="emoji" title="Smirking face (u+1f60f)">😏</button>
+    <button class="emoji" title="Unamused face (u+1f612)">😒</button>
+    <button class="emoji" title="Face with cold sweat (u+1f613)">😓</button>
+    <button class="emoji" title="Pensive face (u+1f614)">😔</button>
+    <button class="emoji" title="Confounded face (u+1f616)">😖</button>
+    <button class="emoji" title="Face throwing a kiss (u+1f618)">😘</button>
+    <button class="emoji" title="Kissing face with closed eyes (u+1f61a)">😚</button>
+    <button class="emoji" title="Face with stuck-out tongue and winking eye (u+1f61c)">😜</button>
+    <button class="emoji" title="Face with stuck-out tongue and tightly-closed eyes (u+1f61d)">😝</button>
+    <button class="emoji" title="Disappointed face (u+1f61e)">😞</button>
+    <button class="emoji" title="Angry face (u+1f620)">😠</button>
+    <button class="emoji" title="Pouting face (u+1f621)">😡</button>
+    <button class="emoji" title="Crying face (u+1f622)">😢</button>
+    <button class="emoji" title="Persevering face (u+1f623)">😣</button>
+    <button class="emoji" title="Face with look of triumph (u+1f624)">😤</button>
+    <button class="emoji" title="Disappointed but relieved face (u+1f625)">😥</button>
+    <button class="emoji" title="Fearful face (u+1f628)">😨</button>
+    <button class="emoji" title="Weary face (u+1f629)">😩</button>
+    <button class="emoji" title="Sleepy face (u+1f62a)">😪</button>
+    <button class="emoji" title="Tired face (u+1f62b)">😫</button>
+    <button class="emoji" title="Loudly crying face (u+1f62d)">😭</button>
+    <button class="emoji" title="Face with open mouth and cold sweat (u+1f630)">😰</button>
+    <button class="emoji" title="Face screaming in fear (u+1f631)">😱</button>
+    <button class="emoji" title="Astonished face (u+1f632)">😲</button>
+    <button class="emoji" title="Flushed face (u+1f633)">😳</button>
+    <button class="emoji" title="Dizzy face (u+1f635)">😵</button>
+    <button class="emoji" title="Face with medical mask (u+1f637)">😷</button>
+
+    <button class="emoji" title="Grinning face (u+1f600)">😀</button>
+    <button class="emoji" title="Smiling face with halo (u+1f607)">😇</button>
+    <button class="emoji" title="Smiling face with horns (u+1f608)">😈</button>
+    <button class="emoji" title="Smiling face with sunglasses (u+1f60e)">😎</button>
+    <button class="emoji" title="Neutral face (u+1f610)">😐</button>
+    <button class="emoji" title="Expressionless face (u+1f611)">😑</button>
+    <button class="emoji" title="Confused face (u+1f615)">😕</button>
+    <button class="emoji" title="Kissing face (u+1f617)">😗</button>
+    <button class="emoji" title="Kissing face with smiling eyes (u+1f619)">😙</button>
+    <button class="emoji" title="Face with stuck-out tongue (u+1f61b)">😛</button>
+    <button class="emoji" title="Worried face (u+1f61f)">😟</button>
+    <button class="emoji" title="Frowning face with open mouth (u+1f626)">😦</button>
+    <button class="emoji" title="Anguished face (u+1f627)">😧</button>
+    <button class="emoji" title="Grimacing face (u+1f62c)">😬</button>
+    <button class="emoji" title="Face with open mouth (u+1f62e)">😮</button>
+    <button class="emoji" title="Hushed face (u+1f62f)">😯</button>
+    <button class="emoji" title="Sleeping face (u+1f634)">😴</button>
+    <button class="emoji" title="Face without mouth (u+1f636)">😶</button>
+</div></div>
+
+<input id="tab-2" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-2">🐧</label>
+<div class="tab-content">
+    <button class="emoji" title="Grinning cat face with smiling eyes (u+1f638)">😸</button>
+    <button class="emoji" title="Cat face with tears of joy (u+1f639)">😹</button>
+    <button class="emoji" title="Smiling cat face with open mouth (u+1f63a)">😺</button>
+    <button class="emoji" title="Smiling cat face with heart-shaped eyes (u+1f63b)">😻</button>
+    <button class="emoji" title="Cat face with wry smile (u+1f63c)">😼</button>
+    <button class="emoji" title="Kissing cat face with closed eyes (u+1f63d)">😽</button>
+    <button class="emoji" title="Pouting cat face (u+1f63e)">😾</button>
+    <button class="emoji" title="Crying cat face (u+1f63f)">😿</button>
+    <button class="emoji" title="Weary cat face (u+1f640)">🙀</button>
+
+    <button class="emoji" title="See-no-evil monkey (u+1f648)">🙈</button>
+    <button class="emoji" title="Hear-no-evil monkey (u+1f649)">🙉</button>
+    <button class="emoji" title="Speak-no-evil monkey (u+1f64a)">🙊</button>
+
+    <button class="emoji" title="Snail (u+1f40c)">🐌</button>
+    <button class="emoji" title="Snake (u+1f40d)">🐍</button>
+    <button class="emoji" title="Horse (u+1f40e)">🐎</button>
+    <button class="emoji" title="Sheep (u+1f411)">🐑</button>
+    <button class="emoji" title="Monkey (u+1f412)">🐒</button>
+    <button class="emoji" title="Chicken (u+1f414)">🐔</button>
+    <button class="emoji" title="Boar (u+1f417)">🐗</button>
+    <button class="emoji" title="Elephant (u+1f418)">🐘</button>
+    <button class="emoji" title="Octopus (u+1f419)">🐙</button>
+    <button class="emoji" title="Spiral shell (u+1f41a)">🐚</button>
+    <button class="emoji" title="Bug (u+1f41b)">🐛</button>
+    <button class="emoji" title="Ant (u+1f41c)">🐜</button>
+    <button class="emoji" title="Honeybee (u+1f41d)">🐝</button>
+    <button class="emoji" title="Lady beetle (u+1f41e)">🐞</button>
+    <button class="emoji" title="Fish (u+1f41f)">🐟</button>
+    <button class="emoji" title="Tropical fish (u+1f420)">🐠</button>
+    <button class="emoji" title="Blowfish (u+1f421)">🐡</button>
+    <button class="emoji" title="Turtle (u+1f422)">🐢</button>
+    <button class="emoji" title="Hatching chick (u+1f423)">🐣</button>
+    <button class="emoji" title="Baby chick (u+1f424)">🐤</button>
+    <button class="emoji" title="Front-facing baby chick (u+1f425)">🐥</button>
+    <button class="emoji" title="Bird (u+1f426)">🐦</button>
+    <button class="emoji" title="Penguin (u+1f427)">🐧</button>
+    <button class="emoji" title="Koala (u+1f428)">🐨</button>
+    <button class="emoji" title="Poodle (u+1f429)">🐩</button>
+    <button class="emoji" title="Bactrian camel (u+1f42b)">🐫</button>
+    <button class="emoji" title="Dolphin (u+1f42c)">🐬</button>
+    <button class="emoji" title="Mouse face (u+1f42d)">🐭</button>
+    <button class="emoji" title="Cow face (u+1f42e)">🐮</button>
+    <button class="emoji" title="Tiger face (u+1f42f)">🐯</button>
+    <button class="emoji" title="Rabbit face (u+1f430)">🐰</button>
+    <button class="emoji" title="Cat face (u+1f431)">🐱</button>
+    <button class="emoji" title="Dragon face (u+1f432)">🐲</button>
+    <button class="emoji" title="Spouting whale (u+1f433)">🐳</button>
+    <button class="emoji" title="Horse face (u+1f434)">🐴</button>
+    <button class="emoji" title="Monkey face (u+1f435)">🐵</button>
+    <button class="emoji" title="Dog face (u+1f436)">🐶</button>
+    <button class="emoji" title="Pig face (u+1f437)">🐷</button>
+    <button class="emoji" title="Frog face (u+1f438)">🐸</button>
+    <button class="emoji" title="Hamster face (u+1f439)">🐹</button>
+    <button class="emoji" title="Wolf face (u+1f43a)">🐺</button>
+    <button class="emoji" title="Bear face (u+1f43b)">🐻</button>
+    <button class="emoji" title="Panda face (u+1f43c)">🐼</button>
+    <button class="emoji" title="Pig nose (u+1f43d)">🐽</button>
+    <button class="emoji" title="Paw prints (u+1f43e)">🐾</button>
+
+    <button class="emoji" title="Rat (u+1f400)">🐀</button>
+    <button class="emoji" title="Mouse (u+1f401)">🐁</button>
+    <button class="emoji" title="Ox (u+1f402)">🐂</button>
+    <button class="emoji" title="Water buffalo (u+1f403)">🐃</button>
+    <button class="emoji" title="Cow (u+1f404)">🐄</button>
+    <button class="emoji" title="Tiger (u+1f405)">🐅</button>
+    <button class="emoji" title="Leopard (u+1f406)">🐆</button>
+    <button class="emoji" title="Rabbit (u+1f407)">🐇</button>
+    <button class="emoji" title="Cat (u+1f408)">🐈</button>
+    <button class="emoji" title="Dragon (u+1f409)">🐉</button>
+    <button class="emoji" title="Crocodile (u+1f40a)">🐊</button>
+    <button class="emoji" title="Whale (u+1f40b)">🐋</button>
+    <button class="emoji" title="Ram (u+1f40f)">🐏</button>
+    <button class="emoji" title="Goat (u+1f410)">🐐</button>
+    <button class="emoji" title="Rooster (u+1f413)">🐓</button>
+    <button class="emoji" title="Dog (u+1f415)">🐕</button>
+    <button class="emoji" title="Pig (u+1f416)">🐖</button>
+    <button class="emoji" title="Dromedary camel (u+1f42a)">🐪</button>
+</div></div>
+
+<input id="tab-3" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-3">✋</label>
+    <div class="tab-content">
+    <button class="emoji" title="Thumbs up sign (u+1f44d)">👍</button>
+    <button class="emoji" title="Thumbs down sign (u+1f44e)">👎</button>
+
+    <button class="emoji" title="Raised fist (u+270a)">✊</button>
+    <button class="emoji" title="Raised hand (u+270b)">✋</button>
+
+    <button class="emoji" title="Fisted hand sign (u+1f44a)">👊</button>
+    <button class="emoji" title="Waving hand sign (u+1f44b)">👋</button>
+    <button class="emoji" title="Ok hand sign (u+1f44c)">👌</button>
+
+    <button class="emoji" title="Clapping hands sign (u+1f44f)">👏</button>
+    <button class="emoji" title="Open hands sign (u+1f450)">👐</button>
+
+    <button class="emoji" title="White up pointing backhand index (u+1f446)">👆</button>
+    <button class="emoji" title="White down pointing backhand index (u+1f447)">👇</button>
+    <button class="emoji" title="White left pointing backhand index (u+1f448)">👈</button>
+    <button class="emoji" title="White right pointing backhand index (u+1f449)">👉</button>
+
+    <button class="emoji" title="Person raising both hands in celebration (u+1f64c)">🙌</button>
+    <button class="emoji" title="Person with folded hands (u+1f64f)">🙏</button>
+
+    <button class="emoji" title="Sparkles (u+2728)">✨</button>
+    <button class="emoji" title="Thought balloon (u+1f4ad)">💭</button>
+    <button class="emoji" title="Anger symbol (u+1f4a2)">💢</button>
+    <button class="emoji" title="Sleeping symbol (u+1f4a4)">💤</button>
+    <button class="emoji" title="Collision symbol (u+1f4a5)">💥</button>
+    <button class="emoji" title="Splashing sweat symbol (u+1f4a6)">💦</button>
+    <button class="emoji" title="Droplet (u+1f4a7)">💧</button>
+    <button class="emoji" title="Flexed biceps (u+1f4aa)">💪</button>
+    <button class="emoji" title="Dizzy symbol (u+1f4ab)">💫</button>
+    <button class="emoji" title="Speech balloon (u+1f4ac)">💬</button>
+    <button class="emoji" title="Dash symbol (u+1f4a8)">💨</button>
+</div></div>
+
+<input id="tab-4" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-4">❗</label>
+    <div class="tab-content">
+    <button class="emoji" title="Copyright sign (u+00a9)">©</button>
+    <button class="emoji" title="Registered sign (u+00ae)">®</button>
+    <button class="emoji" title="Double exclamation mark (u+203c)">‼</button>
+    <button class="emoji" title="Exclamation question mark (u+2049)">⁉</button>
+    <button class="emoji" title="Trade mark sign (u+2122)">™</button>
+    <button class="emoji" title="Information source (u+2139)">ℹ</button>
+
+    <button class="emoji" title="Ballot box without check (u+2610)">☐</button>
+    <button class="emoji" title="Ballot box with check (u+2611)">☑</button>
+    <button class="emoji" title="Cross mark (u+274c)">❌</button>
+    <button class="emoji" title="Negative squared cross mark (u+274e)">❎</button>
+
+    <button class="emoji" title="Black scissors (u+2702)">✂</button>
+    <button class="emoji" title="White heavy check mark (u+2705)">✅</button>
+
+    <button class="emoji" title="White medium star (u+2b50)">⭐</button>
+    <button class="emoji" title="Heavy large circle (u+2b55)">⭕</button>
+    <button class="emoji" title="Part alternation mark (u+303d)">〽</button>
+
+    <button class="emoji" title="Earth globe europe-africa (u+1f30d)">🌍</button>
+    <button class="emoji" title="Earth globe americas (u+1f30e)">🌎</button>
+    <button class="emoji" title="Globe with meridians (u+1f310)">🌐</button>
+    <button class="emoji" title="Waxing crescent moon symbol (u+1f312)">🌒</button>
+    <button class="emoji" title="Waning gibbous moon symbol (u+1f316)">🌖</button>
+    <button class="emoji" title="Last quarter moon symbol (u+1f317)">🌗</button>
+    <button class="emoji" title="Waning crescent moon symbol (u+1f318)">🌘</button>
+    <button class="emoji" title="New moon with face (u+1f31a)">🌚</button>
+    <button class="emoji" title="Last quarter moon with face (u+1f31c)">🌜</button>
+    <button class="emoji" title="Full moon with face (u+1f31d)">🌝</button>
+    <button class="emoji" title="Sun with face (u+1f31e)">🌞</button>
+
+    <button class="emoji" title="Earth globe asia-australia (u+1f30f)">🌏</button>
+    <button class="emoji" title="New moon symbol (u+1f311)">🌑</button>
+    <button class="emoji" title="First quarter moon symbol (u+1f313)">🌓</button>
+    <button class="emoji" title="Waxing gibbous moon symbol (u+1f314)">🌔</button>
+    <button class="emoji" title="Full moon symbol (u+1f315)">🌕</button>
+    <button class="emoji" title="Crescent moon (u+1f319)">🌙</button>
+    <button class="emoji" title="First quarter moon with face (u+1f31b)">🌛</button>
+    <button class="emoji" title="Glowing star (u+1f31f)">🌟</button>
+    <button class="emoji" title="Shooting star (u+1f320)">🌠</button>
+
+    <button class="emoji" title="Umbrella with rain drops (u+2614)">☔</button>
+    <button class="emoji" title="Closed umbrella (u+1f302)">🌂</button>
+    <button class="emoji" title="Snowman without snow (u+26c4)">⛄</button>
+    <button class="emoji" title="Sun behind cloud (u+26c5)">⛅</button>
+    <button class="emoji" title="Cyclone (u+1f300)">🌀</button>
+    <button class="emoji" title="Rainbow (u+1f308)">🌈</button>
+
+    <button class="emoji" title="Pencil (u+270f)">✏</button>
+    <button class="emoji" title="Black nib (u+2712)">✒</button>
+    <button class="emoji" title="Heavy check mark (u+2714)">✔</button>
+    <button class="emoji" title="Heavy multiplication x (u+2716)">✖</button>
+    <button class="emoji" title="Eight spoked asterisk (u+2733)">✳</button>
+    <button class="emoji" title="Eight pointed black star (u+2734)">✴</button>
+    <button class="emoji" title="Snowflake (u+2744)">❄</button>
+    <button class="emoji" title="Sparkle (u+2747)">❇</button>
+    <button class="emoji" title="Black question mark ornament (u+2753)">❓</button>
+    <button class="emoji" title="White question mark ornament (u+2754)">❔</button>
+    <button class="emoji" title="White exclamation mark ornament (u+2755)">❕</button>
+    <button class="emoji" title="Heavy exclamation mark symbol (u+2757)">❗</button>
+    <button class="emoji" title="Heavy plus sign (u+2795)">➕</button>
+    <button class="emoji" title="Heavy minus sign (u+2796)">➖</button>
+    <button class="emoji" title="Heavy division sign (u+2797)">➗</button>
+    <button class="emoji" title="Black rightwards arrow (u+27a1)">➡</button>
+    <button class="emoji" title="Curly loop (u+27b0)">➰</button>
+
+    <button class="emoji" title="Aries (u+2648)">♈</button>
+    <button class="emoji" title="Taurus (u+2649)">♉</button>
+    <button class="emoji" title="Gemini (u+264a)">♊</button>
+    <button class="emoji" title="Cancer (u+264b)">♋</button>
+    <button class="emoji" title="Leo (u+264c)">♌</button>
+    <button class="emoji" title="Virgo (u+264d)">♍</button>
+    <button class="emoji" title="Libra (u+264e)">♎</button>
+    <button class="emoji" title="Scorpius (u+264f)">♏</button>
+    <button class="emoji" title="Sagittarius (u+2650)">♐</button>
+    <button class="emoji" title="Capricorn (u+2651)">♑</button>
+    <button class="emoji" title="Aquarius (u+2652)">♒</button>
+    <button class="emoji" title="Pisces (u+2653)">♓</button>
+
+    <button class="emoji" title="Ophiuchus (u+26ce)">⛎</button>
+</div></div>
+
+<input id="tab-5" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-5">🚗</label>
+    <div class="tab-content">
+    <button class="emoji" title="Rocket (u+1f680)">🚀</button>
+    <button class="emoji" title="Railway car (u+1f683)">🚃</button>
+    <button class="emoji" title="High-speed train (u+1f684)">🚄</button>
+    <button class="emoji" title="High-speed train with bullet nose (u+1f685)">🚅</button>
+    <button class="emoji" title="Metro (u+1f687)">🚇</button>
+    <button class="emoji" title="Station (u+1f689)">🚉</button>
+    <button class="emoji" title="Bus (u+1f68c)">🚌</button>
+    <button class="emoji" title="Bus stop (u+1f68f)">🚏</button>
+    <button class="emoji" title="Ambulance (u+1f691)">🚑</button>
+    <button class="emoji" title="Fire engine (u+1f692)">🚒</button>
+    <button class="emoji" title="Police car (u+1f693)">🚓</button>
+    <button class="emoji" title="Taxi (u+1f695)">🚕</button>
+    <button class="emoji" title="Automobile (u+1f697)">🚗</button>
+    <button class="emoji" title="Recreational vehicle (u+1f699)">🚙</button>
+    <button class="emoji" title="Delivery truck (u+1f69a)">🚚</button>
+    <button class="emoji" title="Ship (u+1f6a2)">🚢</button>
+    <button class="emoji" title="Speedboat (u+1f6a4)">🚤</button>
+    <button class="emoji" title="Horizontal traffic light (u+1f6a5)">🚥</button>
+    <button class="emoji" title="Construction sign (u+1f6a7)">🚧</button>
+    <button class="emoji" title="Police cars revolving light (u+1f6a8)">🚨</button>
+    <button class="emoji" title="Triangular flag on post (u+1f6a9)">🚩</button>
+    <button class="emoji" title="Door (u+1f6aa)">🚪</button>
+    <button class="emoji" title="Smoking symbol (u+1f6ac)">🚬</button>
+    <button class="emoji" title="No smoking symbol (u+1f6ad)">🚭</button>
+    <button class="emoji" title="Bicycle (u+1f6b2)">🚲</button>
+    <button class="emoji" title="Pedestrian (u+1f6b6)">🚶</button>
+
+    <button class="emoji" title="Helicopter (u+1f681)">🚁</button>
+    <button class="emoji" title="Steam locomotive (u+1f682)">🚂</button>
+    <button class="emoji" title="Train (u+1f686)">🚆</button>
+    <button class="emoji" title="Light rail (u+1f688)">🚈</button>
+    <button class="emoji" title="Tram (u+1f68a)">🚊</button>
+    <button class="emoji" title="Oncoming bus (u+1f68d)">🚍</button>
+    <button class="emoji" title="Trolleybus (u+1f68e)">🚎</button>
+    <button class="emoji" title="Minibus (u+1f690)">🚐</button>
+    <button class="emoji" title="Oncoming police car (u+1f694)">🚔</button>
+    <button class="emoji" title="Oncoming taxi (u+1f696)">🚖</button>
+    <button class="emoji" title="Oncoming automobile (u+1f698)">🚘</button>
+    <button class="emoji" title="Articulated lorry (u+1f69b)">🚛</button>
+    <button class="emoji" title="Tractor (u+1f69c)">🚜</button>
+    <button class="emoji" title="Monorail (u+1f69d)">🚝</button>
+    <button class="emoji" title="Mountain railway (u+1f69e)">🚞</button>
+    <button class="emoji" title="Suspension railway (u+1f69f)">🚟</button>
+    <button class="emoji" title="Mountain cableway (u+1f6a0)">🚠</button>
+    <button class="emoji" title="Aerial tramway (u+1f6a1)">🚡</button>
+    <button class="emoji" title="Rowboat (u+1f6a3)">🚣</button>
+    <button class="emoji" title="Anchor (u+2693)">⚓</button>
+    <button class="emoji" title="Vertical traffic light (u+1f6a6)">🚦</button>
+    <button class="emoji" title="Put litter in its place symbol (u+1f6ae)">🚮</button>
+    <button class="emoji" title="Do not litter symbol (u+1f6af)">🚯</button>
+    <button class="emoji" title="Potable water symbol (u+1f6b0)">🚰</button>
+    <button class="emoji" title="Non-potable water symbol (u+1f6b1)">🚱</button>
+    <button class="emoji" title="No bicycles (u+1f6b3)">🚳</button>
+    <button class="emoji" title="Bicyclist (u+1f6b4)">🚴</button>
+    <button class="emoji" title="Mountain bicyclist (u+1f6b5)">🚵</button>
+    <button class="emoji" title="No pedestrians (u+1f6b7)">🚷</button>
+
+    <button class="emoji" title="Passport control (u+1f6c2)">🛂</button>
+    <button class="emoji" title="Customs (u+1f6c3)">🛃</button>
+    <button class="emoji" title="Baggage claim (u+1f6c4)">🛄</button>
+    <button class="emoji" title="Left luggage (u+1f6c5)">🛅</button>
+
+    <button class="emoji" title="Sailboat (u+26f5)">⛵</button>
+    <button class="emoji" title="Airplane (u+2708)">✈</button>
+
+    <button class="emoji" title="No entry sign (u+1f6ab)">🚫</button>
+    <button class="emoji" title="No entry (u+26d4)">⛔</button>
+    <button class="emoji" title="Wheelchair symbol (u+267f)">♿</button>
+    <button class="emoji" title="Children crossing (u+1f6b8)">🚸</button>
+
+    <button class="emoji" title="Mens symbol (u+1f6b9)">🚹</button>
+    <button class="emoji" title="Womens symbol (u+1f6ba)">🚺</button>
+    <button class="emoji" title="Restroom (u+1f6bb)">🚻</button>
+    <button class="emoji" title="Baby symbol (u+1f6bc)">🚼</button>
+    <button class="emoji" title="Toilet (u+1f6bd)">🚽</button>
+    <button class="emoji" title="Water closet (u+1f6be)">🚾</button>
+    <button class="emoji" title="Bath (u+1f6c0)">🛀</button>
+</div></div>
+
+<input id="tab-6" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-6">🆓</label>
+    <div class="tab-content">
+    <button class="emoji" title="Negative squared latin capital letter a (u+1f170)">🅰</button>
+    <button class="emoji" title="Negative squared latin capital letter b (u+1f171)">🅱</button>
+    <button class="emoji" title="Negative squared latin capital letter o (u+1f17e)">🅾</button>
+    <button class="emoji" title="Negative squared latin capital letter p (u+1f17f)">🅿</button>
+    <button class="emoji" title="Negative squared ab (u+1f18e)">🆎</button>
+    <button class="emoji" title="Squared cl (u+1f191)">🆑</button>
+    <button class="emoji" title="Squared cool (u+1f192)">🆒</button>
+    <button class="emoji" title="Squared free (u+1f193)">🆓</button>
+    <button class="emoji" title="Squared id (u+1f194)">🆔</button>
+    <button class="emoji" title="Squared new (u+1f195)">🆕</button>
+    <button class="emoji" title="Squared ng (u+1f196)">🆖</button>
+    <button class="emoji" title="Squared ok (u+1f197)">🆗</button>
+    <button class="emoji" title="Squared sos (u+1f198)">🆘</button>
+    <button class="emoji" title="Squared up with exclamation mark (u+1f199)">🆙</button>
+    <button class="emoji" title="Squared vs (u+1f19a)">🆚</button>
+    <button class="emoji" title="Regional indicator symbol letter d + e (u+1f1e9 u+1f1ea)">🇩🇪</button>
+    <button class="emoji" title="Regional indicator symbol letter g + b (u+1f1ec u+1f1e7)">🇬🇧</button>
+    <button class="emoji" title="Regional indicator symbol letter c + n (u+1f1e8 u+1f1f3)">🇨🇳</button>
+    <button class="emoji" title="Regional indicator symbol letter j + p (u+1f1ef u+1f1f5)">🇯🇵</button>
+    <button class="emoji" title="Regional indicator symbol letter k + r (u+1f1f0 u+1f1f7)">🇰🇷</button>
+    <button class="emoji" title="Regional indicator symbol letter f + r (u+1f1eb u+1f1f7)">🇫🇷</button>
+    <button class="emoji" title="Regional indicator symbol letter e + s (u+1f1ea u+1f1f8)">🇪🇸</button>
+    <button class="emoji" title="Regional indicator symbol letter i + t (u+1f1ee u+1f1f9)">🇮🇹</button>
+    <button class="emoji" title="Regional indicator symbol letter u + s (u+1f1fa u+1f1f8)">🇺🇸</button>
+    <button class="emoji" title="Regional indicator symbol letter r + u (u+1f1f7 u+1f1fa)">🇷🇺</button>
+    <button class="emoji" title="Squared katakana koko (u+1f201)">🈁</button>
+    <button class="emoji" title="Squared katakana sa (u+1f202)">🈂</button>
+    <button class="emoji" title="Squared cjk unified ideograph-7121 (u+1f21a)">🈚</button>
+    <button class="emoji" title="Squared cjk unified ideograph-6307 (u+1f22f)">🈯</button>
+    <button class="emoji" title="Squared cjk unified ideograph-7981 (u+1f232)">🈲</button>
+    <button class="emoji" title="Squared cjk unified ideograph-7a7a (u+1f233)">🈳</button>
+    <button class="emoji" title="Squared cjk unified ideograph-5408 (u+1f234)">🈴</button>
+    <button class="emoji" title="Squared cjk unified ideograph-6e80 (u+1f235)">🈵</button>
+    <button class="emoji" title="Squared cjk unified ideograph-6709 (u+1f236)">🈶</button>
+    <button class="emoji" title="Squared cjk unified ideograph-6708 (u+1f237)">🈷</button>
+    <button class="emoji" title="Squared cjk unified ideograph-7533 (u+1f238)">🈸</button>
+    <button class="emoji" title="Squared cjk unified ideograph-5272 (u+1f239)">🈹</button>
+    <button class="emoji" title="Squared cjk unified ideograph-55b6 (u+1f23a)">🈺</button>
+    <button class="emoji" title="Circled ideograph advantage (u+1f250)">🉐</button>
+    <button class="emoji" title="Circled ideograph accept (u+1f251)">🉑</button>
+
+    <button class="emoji" title="Digit eight + combining enclosing keycap (u+0038 u+20e3)">8⃣</button>
+    <button class="emoji" title="Digit nine + combining enclosing keycap (u+0039 u+20e3)">9⃣</button>
+    <button class="emoji" title="Digit seven + combining enclosing keycap (u+0037 u+20e3)">7⃣</button>
+    <button class="emoji" title="Digit six + combining enclosing keycap (u+0036 u+20e3)">6⃣</button>
+    <button class="emoji" title="Digit one + combining enclosing keycap (u+0031 u+20e3)">1⃣</button>
+    <button class="emoji" title="Digit zero + combining enclosing keycap (u+0030 u+20e3)">0⃣</button>
+    <button class="emoji" title="Digit two + combining enclosing keycap (u+0032 u+20e3)">2⃣</button>
+    <button class="emoji" title="Digit three + combining enclosing keycap (u+0033 u+20e3)">3⃣</button>
+    <button class="emoji" title="Digit five + combining enclosing keycap (u+0035 u+20e3)">5⃣</button>
+    <button class="emoji" title="Digit four + combining enclosing keycap (u+0034 u+20e3)">4⃣</button>
+    <button class="emoji" title="Number sign + combining enclosing keycap (u+0023 u+20e3)">#⃣</button>
+
+    <button class="emoji" title="Circled latin capital letter m (u+24c2)">ⓜ</button>
+
+    <button class="emoji" title="Circled ideograph congratulation (u+3297)">㊗</button>
+    <button class="emoji" title="Circled ideograph secret (u+3299)">㊙</button>
+
+    <button class="emoji" title="Keycap ten (u+1f51f)">🔟</button>
+</div></div>
+
+<input id="tab-7" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-7">🎨</label>
+    <div class="tab-content">
+    <button class="emoji" title="Watch (u+231a)">⌚</button>
+    <button class="emoji" title="Hourglass (u+231b)">⌛</button>
+    <button class="emoji" title="Alarm clock (u+23f0)">⏰</button>
+    <button class="emoji" title="Hourglass with flowing sand (u+23f3)">⏳</button>
+
+    <button class="emoji" title="Hot springs (u+2668)">♨</button>
+    <button class="emoji" title="Black universal recycling symbol (u+267b)">♻</button>
+
+    <button class="emoji" title="Warning sign (u+26a0)">⚠</button>
+    <button class="emoji" title="High voltage sign (u+26a1)">⚡</button>
+    <button class="emoji" title="Soccer ball (u+26bd)">⚽</button>
+    <button class="emoji" title="Baseball (u+26be)">⚾</button>
+
+    <button class="emoji" title="Horse racing (u+1f3c7)">🏇</button>
+    <button class="emoji" title="Rugby football (u+1f3c9)">🏉</button>
+    <button class="emoji" title="Microscope (u+1f52c)">🔬</button>
+    <button class="emoji" title="Telescope (u+1f52d)">🔭</button>
+
+    <button class="emoji" title="Mahjong tile red dragon (u+1f004)">🀄</button>
+    <button class="emoji" title="Playing card black joker (u+1f0cf)">🃏</button>
+
+    <button class="emoji" title="Jack-o-lantern (u+1f383)">🎃</button>
+    <button class="emoji" title="Christmas tree (u+1f384)">🎄</button>
+    <button class="emoji" title="Father christmas (u+1f385)">🎅</button>
+    <button class="emoji" title="Ribbon (u+1f380)">🎀</button>
+    <button class="emoji" title="Wrapped present (u+1f381)">🎁</button>
+    <button class="emoji" title="Fireworks (u+1f386)">🎆</button>
+    <button class="emoji" title="Firework sparkler (u+1f387)">🎇</button>
+    <button class="emoji" title="Balloon (u+1f388)">🎈</button>
+    <button class="emoji" title="Party popper (u+1f389)">🎉</button>
+    <button class="emoji" title="Confetti ball (u+1f38a)">🎊</button>
+    <button class="emoji" title="Tanabata tree (u+1f38b)">🎋</button>
+    <button class="emoji" title="Crossed flags (u+1f38c)">🎌</button>
+    <button class="emoji" title="Pine decoration (u+1f38d)">🎍</button>
+    <button class="emoji" title="Japanese dolls (u+1f38e)">🎎</button>
+    <button class="emoji" title="Carp streamer (u+1f38f)">🎏</button>
+    <button class="emoji" title="Wind chime (u+1f390)">🎐</button>
+    <button class="emoji" title="Moon viewing ceremony (u+1f391)">🎑</button>
+    <button class="emoji" title="School satchel (u+1f392)">🎒</button>
+    <button class="emoji" title="Graduation cap (u+1f393)">🎓</button>
+    <button class="emoji" title="Carousel horse (u+1f3a0)">🎠</button>
+    <button class="emoji" title="Ferris wheel (u+1f3a1)">🎡</button>
+    <button class="emoji" title="Roller coaster (u+1f3a2)">🎢</button>
+    <button class="emoji" title="Fishing pole and fish (u+1f3a3)">🎣</button>
+    <button class="emoji" title="Microphone (u+1f3a4)">🎤</button>
+    <button class="emoji" title="Movie camera (u+1f3a5)">🎥</button>
+    <button class="emoji" title="Cinema (u+1f3a6)">🎦</button>
+    <button class="emoji" title="Headphone (u+1f3a7)">🎧</button>
+    <button class="emoji" title="Artist palette (u+1f3a8)">🎨</button>
+    <button class="emoji" title="Top hat (u+1f3a9)">🎩</button>
+    <button class="emoji" title="Circus tent (u+1f3aa)">🎪</button>
+    <button class="emoji" title="Ticket (u+1f3ab)">🎫</button>
+    <button class="emoji" title="Clapper board (u+1f3ac)">🎬</button>
+    <button class="emoji" title="Performing arts (u+1f3ad)">🎭</button>
+    <button class="emoji" title="Video game (u+1f3ae)">🎮</button>
+    <button class="emoji" title="Direct hit (u+1f3af)">🎯</button>
+    <button class="emoji" title="Slot machine (u+1f3b0)">🎰</button>
+    <button class="emoji" title="Billiards (u+1f3b1)">🎱</button>
+    <button class="emoji" title="Game die (u+1f3b2)">🎲</button>
+    <button class="emoji" title="Bowling (u+1f3b3)">🎳</button>
+    <button class="emoji" title="Flower playing cards (u+1f3b4)">🎴</button>
+    <button class="emoji" title="Musical note (u+1f3b5)">🎵</button>
+    <button class="emoji" title="Multiple musical notes (u+1f3b6)">🎶</button>
+    <button class="emoji" title="Saxophone (u+1f3b7)">🎷</button>
+    <button class="emoji" title="Guitar (u+1f3b8)">🎸</button>
+    <button class="emoji" title="Musical keyboard (u+1f3b9)">🎹</button>
+    <button class="emoji" title="Trumpet (u+1f3ba)">🎺</button>
+    <button class="emoji" title="Violin (u+1f3bb)">🎻</button>
+    <button class="emoji" title="Musical score (u+1f3bc)">🎼</button>
+    <button class="emoji" title="Running shirt with sash (u+1f3bd)">🎽</button>
+    <button class="emoji" title="Tennis racquet and ball (u+1f3be)">🎾</button>
+    <button class="emoji" title="Ski and ski boot (u+1f3bf)">🎿</button>
+    <button class="emoji" title="Basketball and hoop (u+1f3c0)">🏀</button>
+    <button class="emoji" title="Chequered flag (u+1f3c1)">🏁</button>
+    <button class="emoji" title="Snowboarder (u+1f3c2)">🏂</button>
+    <button class="emoji" title="Runner (u+1f3c3)">🏃</button>
+    <button class="emoji" title="Surfer (u+1f3c4)">🏄</button>
+    <button class="emoji" title="Trophy (u+1f3c6)">🏆</button>
+    <button class="emoji" title="American football (u+1f3c8)">🏈</button>
+    <button class="emoji" title="Swimmer (u+1f3ca)">🏊</button>
+    <button class="emoji" title="Shower (u+1f6bf)">🚿</button>
+    <button class="emoji" title="Bathtub (u+1f6c1)">🛁</button>
+    <button class="emoji" title="Crown (u+1f451)">👑</button>
+
+    <button class="emoji" title="Barber pole (u+1f488)">💈</button>
+    <button class="emoji" title="Syringe (u+1f489)">💉</button>
+    <button class="emoji" title="Pill (u+1f48a)">💊</button>
+
+    <button class="emoji" title="Electric light bulb (u+1f4a1)">💡</button>
+    <button class="emoji" title="Bomb (u+1f4a3)">💣</button>
+
+    <button class="emoji" title="Pile of poo (u+1f4a9)">💩</button>
+
+    <button class="emoji" title="White flower (u+1f4ae)">💮</button>
+    <button class="emoji" title="Hundred points symbol (u+1f4af)">💯</button>
+
+    <button class="emoji" title="Seat (u+1f4ba)">💺</button>
+    <button class="emoji" title="Personal computer (u+1f4bb)">💻</button>
+    <button class="emoji" title="Briefcase (u+1f4bc)">💼</button>
+    <button class="emoji" title="Minidisc (u+1f4bd)">💽</button>
+    <button class="emoji" title="Floppy disk (u+1f4be)">💾</button>
+    <button class="emoji" title="Optical disc (u+1f4bf)">💿</button>
+    <button class="emoji" title="Dvd (u+1f4c0)">📀</button>
+    <button class="emoji" title="File folder (u+1f4c1)">📁</button>
+    <button class="emoji" title="Open file folder (u+1f4c2)">📂</button>
+    <button class="emoji" title="Page with curl (u+1f4c3)">📃</button>
+    <button class="emoji" title="Page facing up (u+1f4c4)">📄</button>
+    <button class="emoji" title="Calendar (u+1f4c5)">📅</button>
+    <button class="emoji" title="Tear-off calendar (u+1f4c6)">📆</button>
+    <button class="emoji" title="Card index (u+1f4c7)">📇</button>
+    <button class="emoji" title="Chart with upwards trend (u+1f4c8)">📈</button>
+    <button class="emoji" title="Chart with downwards trend (u+1f4c9)">📉</button>
+    <button class="emoji" title="Bar chart (u+1f4ca)">📊</button>
+    <button class="emoji" title="Clipboard (u+1f4cb)">📋</button>
+    <button class="emoji" title="Pushpin (u+1f4cc)">📌</button>
+    <button class="emoji" title="Round pushpin (u+1f4cd)">📍</button>
+    <button class="emoji" title="Paperclip (u+1f4ce)">📎</button>
+    <button class="emoji" title="Straight ruler (u+1f4cf)">📏</button>
+    <button class="emoji" title="Triangular ruler (u+1f4d0)">📐</button>
+    <button class="emoji" title="Bookmark tabs (u+1f4d1)">📑</button>
+    <button class="emoji" title="Ledger (u+1f4d2)">📒</button>
+    <button class="emoji" title="Notebook (u+1f4d3)">📓</button>
+    <button class="emoji" title="Notebook with decorative cover (u+1f4d4)">📔</button>
+    <button class="emoji" title="Closed book (u+1f4d5)">📕</button>
+    <button class="emoji" title="Open book (u+1f4d6)">📖</button>
+    <button class="emoji" title="Green book (u+1f4d7)">📗</button>
+    <button class="emoji" title="Blue book (u+1f4d8)">📘</button>
+    <button class="emoji" title="Orange book (u+1f4d9)">📙</button>
+    <button class="emoji" title="Books (u+1f4da)">📚</button>
+    <button class="emoji" title="Name badge (u+1f4db)">📛</button>
+    <button class="emoji" title="Scroll (u+1f4dc)">📜</button>
+    <button class="emoji" title="Memo (u+1f4dd)">📝</button>
+    <button class="emoji" title="Telephone receiver (u+1f4de)">📞</button>
+    <button class="emoji" title="Pager (u+1f4df)">📟</button>
+    <button class="emoji" title="Fax machine (u+1f4e0)">📠</button>
+    <button class="emoji" title="Satellite antenna (u+1f4e1)">📡</button>
+    <button class="emoji" title="Public address loudspeaker (u+1f4e2)">📢</button>
+    <button class="emoji" title="Cheering megaphone (u+1f4e3)">📣</button>
+    <button class="emoji" title="Outbox tray (u+1f4e4)">📤</button>
+    <button class="emoji" title="Inbox tray (u+1f4e5)">📥</button>
+    <button class="emoji" title="Package (u+1f4e6)">📦</button>
+    <button class="emoji" title="E-mail symbol (u+1f4e7)">📧</button>
+    <button class="emoji" title="Incoming envelope (u+1f4e8)">📨</button>
+    <button class="emoji" title="Envelope with downwards arrow above (u+1f4e9)">📩</button>
+    <button class="emoji" title="Closed mailbox with lowered flag (u+1f4ea)">📪</button>
+    <button class="emoji" title="Open mailbox with lowered flag (u+1f4ed)">📭</button>
+    <button class="emoji" title="Closed mailbox with raised flag (u+1f4eb)">📫</button>
+    <button class="emoji" title="Open mailbox with raised flag (u+1f4ec)">📬</button>
+    <button class="emoji" title="Postal horn (u+1f4ef)">📯</button>
+    <button class="emoji" title="Postbox (u+1f4ee)">📮</button>
+    <button class="emoji" title="Newspaper (u+1f4f0)">📰</button>
+    <button class="emoji" title="Mobile phone (u+1f4f1)">📱</button>
+    <button class="emoji" title="Mobile phone with rightwards arrow at left (u+1f4f2)">📲</button>
+    <button class="emoji" title="Camera (u+1f4f7)">📷</button>
+    <button class="emoji" title="Video camera (u+1f4f9)">📹</button>
+    <button class="emoji" title="Television (u+1f4fa)">📺</button>
+    <button class="emoji" title="Radio (u+1f4fb)">📻</button>
+    <button class="emoji" title="Videocassette (u+1f4fc)">📼</button>
+
+    <button class="emoji" title="Lock with ink pen (u+1f50f)">🔏</button>
+    <button class="emoji" title="Closed lock with key (u+1f510)">🔐</button>
+    <button class="emoji" title="Key (u+1f511)">🔑</button>
+    <button class="emoji" title="Lock (u+1f512)">🔒</button>
+    <button class="emoji" title="Open lock (u+1f513)">🔓</button>
+
+    <button class="emoji" title="Fire (u+1f525)">🔥</button>
+    <button class="emoji" title="Electric torch (u+1f526)">🔦</button>
+    <button class="emoji" title="Wrench (u+1f527)">🔧</button>
+    <button class="emoji" title="Hammer (u+1f528)">🔨</button>
+    <button class="emoji" title="Nut and bolt (u+1f529)">🔩</button>
+    <button class="emoji" title="Hocho (u+1f52a)">🔪</button>
+    <button class="emoji" title="Pistol (u+1f52b)">🔫</button>
+    <button class="emoji" title="Crystal ball (u+1f52e)">🔮</button>
+    <button class="emoji" title="Six pointed star with middle dot (u+1f52f)">🔯</button>
+    <button class="emoji" title="Japanese symbol for beginner (u+1f530)">🔰</button>
+
+    <button class="emoji" title="Trident emblem (u+1f531)">🔱</button>
+
+</div></div>
+
+<input id="tab-8" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-8">💘</label>
+<div class="tab-content">
+    <button class="emoji" title="Kiss mark (u+1f48b)">💋</button>
+    <button class="emoji" title="Love letter (u+1f48c)">💌</button>
+    <button class="emoji" title="Ring (u+1f48d)">💍</button>
+    <button class="emoji" title="Gem stone (u+1f48e)">💎</button>
+    <button class="emoji" title="Kiss (u+1f48f)">💏</button>
+    <button class="emoji" title="Bouquet (u+1f490)">💐</button>
+    <button class="emoji" title="Couple with heart (u+1f491)">💑</button>
+    <button class="emoji" title="Wedding (u+1f492)">💒</button>
+    <button class="emoji" title="Beating heart (u+1f493)">💓</button>
+    <button class="emoji" title="Broken heart (u+1f494)">💔</button>
+    <button class="emoji" title="Two hearts (u+1f495)">💕</button>
+    <button class="emoji" title="Sparkling heart (u+1f496)">💖</button>
+    <button class="emoji" title="Growing heart (u+1f497)">💗</button>
+    <button class="emoji" title="Heart with arrow (u+1f498)">💘</button>
+    <button class="emoji" title="Blue heart (u+1f499)">💙</button>
+    <button class="emoji" title="Green heart (u+1f49a)">💚</button>
+    <button class="emoji" title="Yellow heart (u+1f49b)">💛</button>
+    <button class="emoji" title="Purple heart (u+1f49c)">💜</button>
+    <button class="emoji" title="Heart with ribbon (u+1f49d)">💝</button>
+    <button class="emoji" title="Revolving hearts (u+1f49e)">💞</button>
+    <button class="emoji" title="Heart decoration (u+1f49f)">💟</button>
+
+    <button class="emoji" title="Heavy black heart (u+2764)">❤</button>
+</div></div>
+
+<input id="tab-9" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-9">🏡</label>
+<div class="tab-content">
+    <button class="emoji" title="Church (u+26ea)">⛪</button>
+    <button class="emoji" title="Fountain (u+26f2)">⛲</button>
+    <button class="emoji" title="Flag in hole (u+26f3)">⛳</button>
+    <button class="emoji" title="Tent (u+26fa)">⛺</button>
+    <button class="emoji" title="Fuel pump (u+26fd)">⛽</button>
+
+    <button class="emoji" title="House building (u+1f3e0)">🏠</button>
+    <button class="emoji" title="House with garden (u+1f3e1)">🏡</button>
+    <button class="emoji" title="Office building (u+1f3e2)">🏢</button>
+    <button class="emoji" title="Japanese post office (u+1f3e3)">🏣</button>
+    <button class="emoji" title="Hospital (u+1f3e5)">🏥</button>
+    <button class="emoji" title="Bank (u+1f3e6)">🏦</button>
+    <button class="emoji" title="Automated teller machine (u+1f3e7)">🏧</button>
+    <button class="emoji" title="Hotel (u+1f3e8)">🏨</button>
+    <button class="emoji" title="Love hotel (u+1f3e9)">🏩</button>
+    <button class="emoji" title="Convenience store (u+1f3ea)">🏪</button>
+    <button class="emoji" title="School (u+1f3eb)">🏫</button>
+    <button class="emoji" title="Department store (u+1f3ec)">🏬</button>
+    <button class="emoji" title="Factory (u+1f3ed)">🏭</button>
+    <button class="emoji" title="Izakaya lantern (u+1f3ee)">🏮</button>
+    <button class="emoji" title="Japanese castle (u+1f3ef)">🏯</button>
+    <button class="emoji" title="European castle (u+1f3f0)">🏰</button>
+
+    <button class="emoji" title="Mount fuji (u+1f5fb)">🗻</button>
+    <button class="emoji" title="Tokyo tower (u+1f5fc)">🗼</button>
+    <button class="emoji" title="Statue of liberty (u+1f5fd)">🗽</button>
+    <button class="emoji" title="Silhouette of japan (u+1f5fe)">🗾</button>
+    <button class="emoji" title="Moyai (u+1f5ff)">🗿</button>
+
+    <button class="emoji" title="Chestnut (u+1f330)">🌰</button>
+    <button class="emoji" title="Seedling (u+1f331)">🌱</button>
+    <button class="emoji" title="Palm tree (u+1f334)">🌴</button>
+    <button class="emoji" title="Cactus (u+1f335)">🌵</button>
+    <button class="emoji" title="Tulip (u+1f337)">🌷</button>
+    <button class="emoji" title="Cherry blossom (u+1f338)">🌸</button>
+    <button class="emoji" title="Rose (u+1f339)">🌹</button>
+    <button class="emoji" title="Hibiscus (u+1f33a)">🌺</button>
+    <button class="emoji" title="Sunflower (u+1f33b)">🌻</button>
+    <button class="emoji" title="Blossom (u+1f33c)">🌼</button>
+    <button class="emoji" title="Ear of maize (u+1f33d)">🌽</button>
+    <button class="emoji" title="Ear of rice (u+1f33e)">🌾</button>
+    <button class="emoji" title="Herb (u+1f33f)">🌿</button>
+    <button class="emoji" title="Four leaf clover (u+1f340)">🍀</button>
+    <button class="emoji" title="Maple leaf (u+1f341)">🍁</button>
+    <button class="emoji" title="Fallen leaf (u+1f342)">🍂</button>
+    <button class="emoji" title="Leaf fluttering in wind (u+1f343)">🍃</button>
+
+    <button class="emoji" title="Evergreen tree (u+1f332)">🌲</button>
+    <button class="emoji" title="Deciduous tree (u+1f333)">🌳</button>
+
+    <button class="emoji" title="Water wave (u+1f30a)">🌊</button>
+    <button class="emoji" title="Volcano (u+1f30b)">🌋</button>
+
+    <button class="emoji" title="European post office (u+1f3e4)">🏤</button>
+
+    <button class="emoji" title="Foggy (u+1f301)">🌁</button>
+    <button class="emoji" title="Night with stars (u+1f303)">🌃</button>
+    <button class="emoji" title="Sunrise over mountains (u+1f304)">🌄</button>
+    <button class="emoji" title="Sunrise (u+1f305)">🌅</button>
+    <button class="emoji" title="Cityscape at dusk (u+1f306)">🌆</button>
+    <button class="emoji" title="Sunset over buildings (u+1f307)">🌇</button>
+    <button class="emoji" title="Milky way (u+1f30c)">🌌</button>
+    <button class="emoji" title="Bridge at night (u+1f309)">🌉</button>
+</div></div>
+
+
+<input id="tab-10" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-10">👨</label>
+    <div class="tab-content">
+    <button class="emoji" title="Bust in silhouette (u+1f464)">👤</button>
+    <button class="emoji" title="Busts in silhouette (u+1f465)">👥</button>
+
+    <button class="emoji" title="Eyes (u+1f440)">👀</button>
+    <button class="emoji" title="Ear (u+1f442)">👂</button>
+    <button class="emoji" title="Nose (u+1f443)">👃</button>
+    <button class="emoji" title="Mouth (u+1f444)">👄</button>
+    <button class="emoji" title="Tongue (u+1f445)">👅</button>
+
+    <button class="emoji" title="Happy person raising one hand (u+1f64b)">🙋</button>
+    <button class="emoji" title="Person frowning (u+1f64d)">🙍</button>
+    <button class="emoji" title="Person with pouting face (u+1f64e)">🙎</button>
+
+    <button class="emoji" title="Face with no good gesture (u+1f645)">🙅</button>
+    <button class="emoji" title="Face with ok gesture (u+1f646)">🙆</button>
+    <button class="emoji" title="Person bowing deeply (u+1f647)">🙇</button>
+
+    <button class="emoji" title="Boy (u+1f466)">👦</button>
+    <button class="emoji" title="Girl (u+1f467)">👧</button>
+    <button class="emoji" title="Man (u+1f468)">👨</button>
+    <button class="emoji" title="Woman (u+1f469)">👩</button>
+    <button class="emoji" title="Family (u+1f46a)">👪</button>
+    <button class="emoji" title="Man and woman holding hands (u+1f46b)">👫</button>
+    <button class="emoji" title="Two men holding hands (u+1f46c)">👬</button>
+    <button class="emoji" title="Two women holding hands (u+1f46d)">👭</button>
+    <button class="emoji" title="Police officer (u+1f46e)">👮</button>
+    <button class="emoji" title="Woman with bunny ears (u+1f46f)">👯</button>
+    <button class="emoji" title="Bride with veil (u+1f470)">👰</button>
+    <button class="emoji" title="Person with blond hair (u+1f471)">👱</button>
+    <button class="emoji" title="Man with gua pi mao (u+1f472)">👲</button>
+    <button class="emoji" title="Man with turban (u+1f473)">👳</button>
+    <button class="emoji" title="Older man (u+1f474)">👴</button>
+    <button class="emoji" title="Older woman (u+1f475)">👵</button>
+    <button class="emoji" title="Baby (u+1f476)">👶</button>
+    <button class="emoji" title="Construction worker (u+1f477)">👷</button>
+    <button class="emoji" title="Princess (u+1f478)">👸</button>
+
+    <button class="emoji" title="Japanese ogre (u+1f479)">👹</button>
+    <button class="emoji" title="Japanese goblin (u+1f47a)">👺</button>
+    <button class="emoji" title="Ghost (u+1f47b)">👻</button>
+    <button class="emoji" title="Baby angel (u+1f47c)">👼</button>
+    <button class="emoji" title="Extraterrestrial alien (u+1f47d)">👽</button>
+    <button class="emoji" title="Alien monster (u+1f47e)">👾</button>
+    <button class="emoji" title="Imp (u+1f47f)">👿</button>
+    <button class="emoji" title="Skull (u+1f480)">💀</button>
+    <button class="emoji" title="Information desk person (u+1f481)">💁</button>
+    <button class="emoji" title="Guardsman (u+1f482)">💂</button>
+    <button class="emoji" title="Dancer (u+1f483)">💃</button>
+
+    <button class="emoji" title="Womans hat (u+1f452)">👒</button>
+    <button class="emoji" title="Eyeglasses (u+1f453)">👓</button>
+    <button class="emoji" title="Necktie (u+1f454)">👔</button>
+    <button class="emoji" title="T-shirt (u+1f455)">👕</button>
+    <button class="emoji" title="Jeans (u+1f456)">👖</button>
+    <button class="emoji" title="Dress (u+1f457)">👗</button>
+    <button class="emoji" title="Kimono (u+1f458)">👘</button>
+    <button class="emoji" title="Bikini (u+1f459)">👙</button>
+    <button class="emoji" title="Womans clothes (u+1f45a)">👚</button>
+    <button class="emoji" title="Purse (u+1f45b)">👛</button>
+    <button class="emoji" title="Handbag (u+1f45c)">👜</button>
+    <button class="emoji" title="Pouch (u+1f45d)">👝</button>
+    <button class="emoji" title="Mans shoe (u+1f45e)">👞</button>
+    <button class="emoji" title="Athletic shoe (u+1f45f)">👟</button>
+    <button class="emoji" title="High-heeled shoe (u+1f460)">👠</button>
+    <button class="emoji" title="Womans sandal (u+1f461)">👡</button>
+    <button class="emoji" title="Womans boots (u+1f462)">👢</button>
+    <button class="emoji" title="Footprints (u+1f463)">👣</button>
+
+    <button class="emoji" title="Lipstick (u+1f484)">💄</button>
+    <button class="emoji" title="Nail polish (u+1f485)">💅</button>
+    <button class="emoji" title="Face massage (u+1f486)">💆</button>
+    <button class="emoji" title="Haircut (u+1f487)">💇</button>
+</div></div>
+
+<input id="tab-11" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-11">🍅</label>
+    <div class="tab-content">
+    <button class="emoji" title="Mushroom (u+1f344)">🍄</button>
+    <button class="emoji" title="Tomato (u+1f345)">🍅</button>
+    <button class="emoji" title="Aubergine (u+1f346)">🍆</button>
+    <button class="emoji" title="Grapes (u+1f347)">🍇</button>
+    <button class="emoji" title="Melon (u+1f348)">🍈</button>
+    <button class="emoji" title="Watermelon (u+1f349)">🍉</button>
+    <button class="emoji" title="Tangerine (u+1f34a)">🍊</button>
+    <button class="emoji" title="Banana (u+1f34c)">🍌</button>
+    <button class="emoji" title="Pineapple (u+1f34d)">🍍</button>
+    <button class="emoji" title="Red apple (u+1f34e)">🍎</button>
+    <button class="emoji" title="Green apple (u+1f34f)">🍏</button>
+    <button class="emoji" title="Peach (u+1f351)">🍑</button>
+    <button class="emoji" title="Cherries (u+1f352)">🍒</button>
+    <button class="emoji" title="Strawberry (u+1f353)">🍓</button>
+    <button class="emoji" title="Hamburger (u+1f354)">🍔</button>
+    <button class="emoji" title="Slice of pizza (u+1f355)">🍕</button>
+    <button class="emoji" title="Meat on bone (u+1f356)">🍖</button>
+    <button class="emoji" title="Poultry leg (u+1f357)">🍗</button>
+    <button class="emoji" title="Rice cracker (u+1f358)">🍘</button>
+    <button class="emoji" title="Rice ball (u+1f359)">🍙</button>
+    <button class="emoji" title="Cooked rice (u+1f35a)">🍚</button>
+    <button class="emoji" title="Curry and rice (u+1f35b)">🍛</button>
+    <button class="emoji" title="Steaming bowl (u+1f35c)">🍜</button>
+    <button class="emoji" title="Spaghetti (u+1f35d)">🍝</button>
+    <button class="emoji" title="Bread (u+1f35e)">🍞</button>
+    <button class="emoji" title="French fries (u+1f35f)">🍟</button>
+    <button class="emoji" title="Roasted sweet potato (u+1f360)">🍠</button>
+    <button class="emoji" title="Dango (u+1f361)">🍡</button>
+    <button class="emoji" title="Oden (u+1f362)">🍢</button>
+    <button class="emoji" title="Sushi (u+1f363)">🍣</button>
+    <button class="emoji" title="Fried shrimp (u+1f364)">🍤</button>
+    <button class="emoji" title="Fish cake with swirl design (u+1f365)">🍥</button>
+    <button class="emoji" title="Soft ice cream (u+1f366)">🍦</button>
+    <button class="emoji" title="Shaved ice (u+1f367)">🍧</button>
+    <button class="emoji" title="Ice cream (u+1f368)">🍨</button>
+    <button class="emoji" title="Doughnut (u+1f369)">🍩</button>
+    <button class="emoji" title="Cookie (u+1f36a)">🍪</button>
+    <button class="emoji" title="Chocolate bar (u+1f36b)">🍫</button>
+    <button class="emoji" title="Candy (u+1f36c)">🍬</button>
+    <button class="emoji" title="Lollipop (u+1f36d)">🍭</button>
+    <button class="emoji" title="Custard (u+1f36e)">🍮</button>
+    <button class="emoji" title="Honey pot (u+1f36f)">🍯</button>
+    <button class="emoji" title="Shortcake (u+1f370)">🍰</button>
+    <button class="emoji" title="Bento box (u+1f371)">🍱</button>
+    <button class="emoji" title="Pot of food (u+1f372)">🍲</button>
+    <button class="emoji" title="Cooking (u+1f373)">🍳</button>
+    <button class="emoji" title="Fork and knife (u+1f374)">🍴</button>
+    <button class="emoji" title="Teacup without handle (u+1f375)">🍵</button>
+    <button class="emoji" title="Sake bottle and cup (u+1f376)">🍶</button>
+    <button class="emoji" title="Wine glass (u+1f377)">🍷</button>
+    <button class="emoji" title="Cocktail glass (u+1f378)">🍸</button>
+    <button class="emoji" title="Tropical drink (u+1f379)">🍹</button>
+    <button class="emoji" title="Beer mug (u+1f37a)">🍺</button>
+    <button class="emoji" title="Clinking beer mugs (u+1f37b)">🍻</button>
+
+    <button class="emoji" title="Birthday cake (u+1f382)">🎂</button>
+
+    <button class="emoji" title="Lemon (u+1f34b)">🍋</button>
+    <button class="emoji" title="Pear (u+1f350)">🍐</button>
+    <button class="emoji" title="Baby bottle (u+1f37c)">🍼</button>
+</div></div>
+
+<input id="tab-12" type="radio" name="tabs" />
+<div class="tab-label-content"><label for="tab-12">🔄</label>
+    <div class="tab-content">
+    <button class="emoji" title="Left right arrow (u+2194)">↔</button>
+    <button class="emoji" title="Up down arrow (u+2195)">↕</button>
+    <button class="emoji" title="North west arrow (u+2196)">↖</button>
+    <button class="emoji" title="North east arrow (u+2197)">↗</button>
+    <button class="emoji" title="South east arrow (u+2198)">↘</button>
+    <button class="emoji" title="South west arrow (u+2199)">↙</button>
+    <button class="emoji" title="Leftwards arrow with hook (u+21a9)">↩</button>
+    <button class="emoji" title="Rightwards arrow with hook (u+21aa)">↪</button>
+    <button class="emoji" title="Black right-pointing double triangle (u+23e9)">⏩</button>
+    <button class="emoji" title="Black left-pointing double triangle (u+23ea)">⏪</button>
+    <button class="emoji" title="Black up-pointing double triangle (u+23eb)">⏫</button>
+    <button class="emoji" title="Black down-pointing double triangle (u+23ec)">⏬</button>
+
+    <button class="emoji" title="Money bag (u+1f4b0)">💰</button>
+    <button class="emoji" title="Currency exchange (u+1f4b1)">💱</button>
+    <button class="emoji" title="Heavy dollar sign (u+1f4b2)">💲</button>
+    <button class="emoji" title="Credit card (u+1f4b3)">💳</button>
+    <button class="emoji" title="Banknote with yen sign (u+1f4b4)">💴</button>
+    <button class="emoji" title="Banknote with dollar sign (u+1f4b5)">💵</button>
+    <button class="emoji" title="Money with wings (u+1f4b8)">💸</button>
+    <button class="emoji" title="Chart with upwards trend and yen sign (u+1f4b9)">💹</button>
+
+    <button class="emoji" title="Banknote with euro sign (u+1f4b6)">💶</button>
+    <button class="emoji" title="Banknote with pound sign (u+1f4b7)">💷</button>
+    <button class="emoji" title="No mobile phones (u+1f4f5)">📵</button>
+    <button class="emoji" title="Twisted rightwards arrows (u+1f500)">🔀</button>
+    <button class="emoji" title="Clockwise rightwards and leftwards open circle arrows (u+1f501)">🔁</button>
+    <button class="emoji" title="Clockwise rightwards and leftwards open circle arrows with circled one overlay (u+1f502)">🔂</button>
+    <button class="emoji" title="Anticlockwise downwards and upwards open circle arrows (u+1f504)">🔄</button>
+    <button class="emoji" title="Low brightness symbol (u+1f505)">🔅</button>
+    <button class="emoji" title="High brightness symbol (u+1f506)">🔆</button>
+    <button class="emoji" title="Speaker with cancellation stroke (u+1f507)">🔇</button>
+    <button class="emoji" title="Speaker with one sound wave (u+1f509)">🔉</button>
+    <button class="emoji" title="Bell with cancellation stroke (u+1f515)">🔕</button>
+
+    <button class="emoji" title="Clockwise downwards and upwards open circle arrows (u+1f503)">🔃</button>
+    <button class="emoji" title="Speaker with three sound waves (u+1f50a)">🔊</button>
+    <button class="emoji" title="Battery (u+1f50b)">🔋</button>
+    <button class="emoji" title="Electric plug (u+1f50c)">🔌</button>
+    <button class="emoji" title="Left-pointing magnifying glass (u+1f50d)">🔍</button>
+    <button class="emoji" title="Right-pointing magnifying glass (u+1f50e)">🔎</button>
+
+    <button class="emoji" title="Vibration mode (u+1f4f3)">📳</button>
+    <button class="emoji" title="Mobile phone off (u+1f4f4)">📴</button>
+    <button class="emoji" title="Antenna with bars (u+1f4f6)">📶</button>
+
+    <button class="emoji" title="Clock face one-thirty (u+1f55c)">🕜</button>
+    <button class="emoji" title="Clock face two-thirty (u+1f55d)">🕝</button>
+    <button class="emoji" title="Clock face three-thirty (u+1f55e)">🕞</button>
+    <button class="emoji" title="Clock face four-thirty (u+1f55f)">🕟</button>
+    <button class="emoji" title="Clock face five-thirty (u+1f560)">🕠</button>
+    <button class="emoji" title="Clock face six-thirty (u+1f561)">🕡</button>
+    <button class="emoji" title="Clock face seven-thirty (u+1f562)">🕢</button>
+    <button class="emoji" title="Clock face eight-thirty (u+1f563)">🕣</button>
+    <button class="emoji" title="Clock face nine-thirty (u+1f564)">🕤</button>
+    <button class="emoji" title="Clock face ten-thirty (u+1f565)">🕥</button>
+    <button class="emoji" title="Clock face eleven-thirty (u+1f566)">🕦</button>
+    <button class="emoji" title="Clock face twelve-thirty (u+1f567)">🕧</button>
+    <button class="emoji" title="Clock face one oclock (u+1f550)">🕐</button>
+    <button class="emoji" title="Clock face two oclock (u+1f551)">🕑</button>
+    <button class="emoji" title="Clock face three oclock (u+1f552)">🕒</button>
+    <button class="emoji" title="Clock face four oclock (u+1f553)">🕓</button>
+    <button class="emoji" title="Clock face five oclock (u+1f554)">🕔</button>
+    <button class="emoji" title="Clock face six oclock (u+1f555)">🕕</button>
+    <button class="emoji" title="Clock face seven oclock (u+1f556)">🕖</button>
+    <button class="emoji" title="Clock face eight oclock (u+1f557)">🕗</button>
+    <button class="emoji" title="Clock face nine oclock (u+1f558)">🕘</button>
+    <button class="emoji" title="Clock face ten oclock (u+1f559)">🕙</button>
+    <button class="emoji" title="Clock face eleven oclock (u+1f55a)">🕚</button>
+    <button class="emoji" title="Clock face twelve oclock (u+1f55b)">🕛</button>
+
+    <button class="emoji" title="Input symbol for latin capital letters (u+1f520)">🔠</button>
+    <button class="emoji" title="Input symbol for latin small letters (u+1f521)">🔡</button>
+    <button class="emoji" title="Input symbol for numbers (u+1f522)">🔢</button>
+    <button class="emoji" title="Input symbol for symbols (u+1f523)">🔣</button>
+    <button class="emoji" title="Input symbol for latin letters (u+1f524)">🔤</button>
+
+    <button class="emoji" title="Bell (u+1f514)">🔔</button>
+    <button class="emoji" title="Bookmark (u+1f516)">🔖</button>
+    <button class="emoji" title="Link symbol (u+1f517)">🔗</button>
+    <button class="emoji" title="Radio button (u+1f518)">🔘</button>
+    <button class="emoji" title="Back with leftwards arrow above (u+1f519)">🔙</button>
+    <button class="emoji" title="End with leftwards arrow above (u+1f51a)">🔚</button>
+    <button class="emoji" title="On with exclamation mark with left right arrow above (u+1f51b)">🔛</button>
+    <button class="emoji" title="Soon with rightwards arrow above (u+1f51c)">🔜</button>
+    <button class="emoji" title="Top with upwards arrow above (u+1f51d)">🔝</button>
+    <button class="emoji" title="No one under eighteen symbol (u+1f51e)">🔞</button>
+
+    <button class="emoji" title="Envelope (u+2709)">✉</button>
+    <button class="emoji" title="Victory hand (u+270c)">✌</button>
+    <button class="emoji" title="Hot beverage (u+2615)">☕</button>
+    <button class="emoji" title="White up pointing index (u+261d)">☝</button>
+
+    <button class="emoji" title="Black small square (u+25aa)">▪</button>
+    <button class="emoji" title="White small square (u+25ab)">▫</button>
+    <button class="emoji" title="Black right-pointing triangle (u+25b6)">▶</button>
+    <button class="emoji" title="Black left-pointing triangle (u+25c0)">◀</button>
+    <button class="emoji" title="White medium square (u+25fb)">◻</button>
+    <button class="emoji" title="Black medium square (u+25fc)">◼</button>
+    <button class="emoji" title="White medium small square (u+25fd)">◽</button>
+    <button class="emoji" title="Black medium small square (u+25fe)">◾</button>
+    <button class="emoji" title="Black spade suit (u+2660)">♠</button>
+    <button class="emoji" title="Black club suit (u+2663)">♣</button>
+    <button class="emoji" title="Black heart suit (u+2665)">♥</button>
+    <button class="emoji" title="Black diamond suit (u+2666)">♦</button>
+
+    <button class="emoji" title="Arrow pointing rightwards then curving upwards (u+2934)">⤴</button>
+    <button class="emoji" title="Arrow pointing rightwards then curving downwards (u+2935)">⤵</button>
+    <button class="emoji" title="Leftwards black arrow (u+2b05)">⬅</button>
+    <button class="emoji" title="Upwards black arrow (u+2b06)">⬆</button>
+    <button class="emoji" title="Downwards black arrow (u+2b07)">⬇</button>
+    <button class="emoji" title="Medium white circle (u+26aa)">⚪</button>
+    <button class="emoji" title="Medium black circle (u+26ab)">⚫</button>
+    <button class="emoji" title="Black large square (u+2b1b)">⬛</button>
+    <button class="emoji" title="White large square (u+2b1c)">⬜</button>
+
+    <button class="emoji" title="Wavy dash (u+3030)">〰</button>
+    <button class="emoji" title="Black square button (u+1f532)">🔲</button>
+    <button class="emoji" title="White square button (u+1f533)">🔳</button>
+    <button class="emoji" title="Large red circle (u+1f534)">🔴</button>
+    <button class="emoji" title="Large blue circle (u+1f535)">🔵</button>
+    <button class="emoji" title="Large orange diamond (u+1f536)">🔶</button>
+    <button class="emoji" title="Large blue diamond (u+1f537)">🔷</button>
+    <button class="emoji" title="Small orange diamond (u+1f538)">🔸</button>
+    <button class="emoji" title="Small blue diamond (u+1f539)">🔹</button>
+    <button class="emoji" title="Diamond shape with a dot inside (u+1f4a0)">💠</button>
+    <button class="emoji" title="Up-pointing red triangle (u+1f53a)">🔺</button>
+    <button class="emoji" title="Down-pointing red triangle (u+1f53b)">🔻</button>
+    <button class="emoji" title="Up-pointing small red triangle (u+1f53c)">🔼</button>
+    <button class="emoji" title="Down-pointing small red triangle (u+1f53d)">🔽</button>
+</div></div>
+<div class="slide"></div></div>
+</body>
+</html>

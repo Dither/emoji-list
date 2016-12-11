@@ -1,0 +1,33 @@
+{
+  "manifest_version": 2,
+  "name": "Emoji List",
+  "version": "1.0.0",
+  "developer": {
+    "name": "DitherSky"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "64": "icon.png"
+  },
+  "description": "Insert native emoji after cursor and to clipboard.",
+  "content_scripts": [
+    {
+        "matches": ["http://*/*", "https://*/*"],
+        "js": ["emoji.js"],
+        "run_at": "document_start",
+        "all_frames":true
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions": ["tabs", "clipboardWrite"],
+  "browser_action": {
+        "default_title": "Emoji List",
+        "default_icon": "icon16.png",
+        "default_popup": "popup.html"
+  },
+  "applications": {
+    "gecko": {
+      "id": "emoji-list@mozilla.firefox"
+    }
+  }
+}
